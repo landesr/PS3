@@ -8,25 +8,48 @@ public class DeckTest {
 
 	@Test
 	public void TestEmptyDeck() {
-		//TODO: Build a deck, draw until you get a DeckException
+
+		Deck d = new Deck();
+		for (int i = 0; i < 52; i++) {
+			d.Draw();
+		}
+		assertNull(d.Draw().geteRank());
+		assertNull(d.Draw().geteSuit());
 	}
-	
+
 	@Test
 	public void TestDrawSuit() {
-		//TODO: Build a deck, test the Draw(eSuit) method
+
+		Deck d = new Deck();
+		for (int i = 0; i < 13; i++) {
+			assertNotNull(d.Draw(pkgEnum.eSuit.HEARTS).geteRank());
+		}
+		assertNull(d.Draw(pkgEnum.eSuit.HEARTS).geteSuit());
 	}
-	
+
 	@Test
 	public void TestDrawRank() {
-		//TODO: Build a deck, test the Draw(eRank) method
+		Deck d = new Deck();
+		for (int i = 0; i < 4; i++) {
+			assertNotNull(d.Draw(pkgEnum.eRank.ACE).geteSuit());
+		}
+		assertNull(d.Draw(pkgEnum.eRank.ACE).geteSuit());
 	}
-	
+
+	@Test
 	public void TestDeckRankCount() {
-		//TODO: Build a deck, test the DeckRankCount method
+		Deck d = new Deck();
+		assertEquals(d.rankCount(pkgEnum.eRank.ACE), 4);
+		d.Draw(pkgEnum.eRank.ACE);
+		assertEquals(d.rankCount(pkgEnum.eRank.ACE), 3);
 	}
-	
+
+	@Test
 	public void TestDeckSuitCount() {
-		//TODO: Build a deck, test the DeckSuitCount method
+		Deck d = new Deck();
+		assertEquals(d.suitCount(pkgEnum.eSuit.SPADES), 13);
+		d.Draw(pkgEnum.eSuit.SPADES);
+		assertEquals(d.suitCount(pkgEnum.eSuit.SPADES), 12);
 	}
 
 }

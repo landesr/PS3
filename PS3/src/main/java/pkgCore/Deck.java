@@ -2,7 +2,8 @@ package pkgCore;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
+import java.util.stream.Stream;
+import pkgException.*;
 import pkgEnum.eRank;
 import pkgEnum.eSuit;
 
@@ -19,19 +20,60 @@ public class Deck {
 		Collections.shuffle(cardsInDeck);
 	}
 
-	//TODO: Fix the Draw method so it throws an exception if the deck is empty
 	public Card Draw() {
-		return cardsInDeck.remove(0);
+		try {
+			if (cardsInDeck.size() > 0)
+				return cardsInDeck.remove(0);
+			else
+				throw new DeckException(this);
+		} catch (DeckException c) {
+			return new Card(null, null);
+		}
 	}
-	
-	//TODO: Write an overloaded Draw method to Draw a card of a given eSuit
-	
-	//TODO: Write an overloaded Draw method to Draw a card of a given eRank
 
-	//TODO: Write a method that will return the number of a given eSuit left in the deck.
-	
-	//TODO: Write a method that will return the number of a given eRank left in the deck.
-	
-	//TODO: Write a method that will return 0 or 1 if a given card is left in the deck.
-	
+	public Card Draw(eSuit suit) {
+		try {
+			int count = 0;
+			for (Card c : cardsInDeck) {
+				if (c.geteSuit() == suit)
+					return cardsInDeck.remove(count);
+				else
+					count++;
+			}
+			throw new DeckException(this);
+		} catch (DeckException c) {
+			return new Card(null, null);
+		}
+	}
+
+	public Card Draw(eRank rank) {
+		try {
+			int count = 0;
+			for (Card c : cardsInDeck) {
+				if (c.geteRank() == rank)
+					return cardsInDeck.remove(count);
+				else
+					count++;
+			}
+			throw new DeckException(this);
+		} catch (DeckException c) {
+			return new Card(null, null);
+		}
+	}
+
+	public int suitCount(eSuit suit) {
+		Stream<Card> cardsOfeSuit = cardsInDeck.stream().filter(c -> c.geteSuit() == suit);
+		return (int) cardsOfeSuit.count();
+	}
+
+	public int rankCount(eRank rank) {
+		Stream<Card> cardsOfeRank = cardsInDeck.stream().filter(c -> c.geteRank() == rank);
+		return (int) cardsOfeRank.count();
+	}
+
+	public int cardCheck(eRank rank, eSuit suit) {
+		if ((cardsInDeck.stream().filter(c -> c.geteRank() == rank && c.geteSuit() == suit)).count() > 0)
+			return 1;
+		return 0;
+	}
 }
